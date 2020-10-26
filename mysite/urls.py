@@ -20,3 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pages.urls')),
 ]
+
+admin.site.site_header = 'Mysite Admin Panel'
+admin.site.site_title = 'Mysite Admin Panel'
