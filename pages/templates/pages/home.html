@@ -2,6 +2,7 @@
 
 
 {% block content %}
-    <h2>Homepage</h2>
+    <h2>{{ home_page.title|default:title }}</h2>
+    <p>{{ home_page.body|default:_('Welcome to the homepage!') }}</p>
 {% endblock content %}
     
