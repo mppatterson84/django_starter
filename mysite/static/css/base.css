@@ -1,0 +1,34 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+nav {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  background-color: rgb(73, 73, 148);
+  color: rgb(230, 230, 230);
+}
+h1 {
+  margin: 0;
+  padding: 0 0.5em;
+}
+ul {
+  margin: 0;
+  padding: 0 0.5em;
+}
+ul li {
+  display: inline;
+  padding: 0 0.25em;
+}
+h1 a,
+ul li a {
+  text-decoration: none;
+  color: rgb(230, 230, 230);
+}
+ul#login-menu {
+  margin-left: auto;
+}
+main {
+  padding: 1em;
+}

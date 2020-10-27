@@ -1,17 +1,47 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ request.site.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
-    
-    <h1>{{ request.site.name }}</h1>
-    
-    {% block content %}
-        <h2>Hello, World!</h2>
-    {% endblock content %}
+
+    <nav>
+        <h1><a href="/">{{ request.site.name }}</a></h1>
+
+        <ul>
+            {% for item in menu_items %}
+                
+                {% if item.slug == 'home' %}
+                    <li><a href="/">{{ item.title }}</a></li>
+                {% else %}
+                    <li><a href="/{{ item.slug }}">{{ item.title }}</a></li>
+                {% endif %}
+                
+            {% endfor %}
+        </ul>
+        <ul id="login-menu">
+            
+            {% if user.is_authenticated %}
+            <li>Logged in as: {{ user }}</li>
+            <li><a href="/admin">Admin</a></li>
+            <li><a href="/admin/logout">Logout</a></li>
+            {% else %}
+            <li><a href="/admin/login">Login</a></li>
+            {% endif %}
+                
+        </ul>
+    </nav>
+
+
+    <main>
+        {% block content %}
+            <h2>Hello, World!</h2>
+        {% endblock content %}
+    </main>
         
 
 </body>
