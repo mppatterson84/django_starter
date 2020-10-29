@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     # local
-    'pages.apps.PagesConfig'
+    'pages.apps.PagesConfig',
+    'posts.apps.PostsConfig',
 ]
 
 MIDDLEWARE = [
