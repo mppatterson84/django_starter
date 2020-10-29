@@ -1,15 +1,15 @@
 from django import forms
 from django.contrib import admin
-from django.contrib.sites.shortcuts import get_current_site
 from pages.models import Page
-from urllib import request
 
 # Register your models here.
 
 
 class PageAdminForm(forms.ModelForm):
     slug = forms.CharField(
-        help_text=f'Example: {get_current_site(request).domain}/my-slug/')
+        help_text='Leave blank to have a slug generated automatically.',
+        required=False
+    )
     add_to_menu = forms.BooleanField(
         help_text='Check the box to add this page to the main menu. The page status must be published to show in the menu.',
         required=False)
