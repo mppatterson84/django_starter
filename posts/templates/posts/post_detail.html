@@ -2,6 +2,10 @@
 
 
 {% block content %}
+{% if post.status != 'PUBLISHED' %}
+    <h4>This post is not published.</h4>
+{% endif %}
+
     <h2>{{ post.title }}</h2>
     <p>{{ post.body }}</p>
 {% endblock content %}

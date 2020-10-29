@@ -33,3 +33,6 @@ ul#login-menu {
 main {
   padding: 1em;
 }
+.post-entry {
+  border-top: 1px solid black;
+}

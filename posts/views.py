@@ -15,7 +15,7 @@ class PostListView(ListView):
             return queryset
         else:
             queryset = queryset.filter(status='PUBLISHED')
-        return queryset
+            return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -31,3 +31,12 @@ class PostListView(ListView):
 class PostDetailView(DetailView):
     model = Post
     template_name = 'posts/post_detail.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        if self.request.user.is_authenticated and queryset.filter(author=self.request.user):
+            return queryset
+        else:
+            queryset = queryset.filter(status='PUBLISHED')
+            return queryset

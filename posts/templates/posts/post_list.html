@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 
 {% block content %}
@@ -8,8 +9,8 @@
 
         {% for post in object_list %}
             <div class="post-entry">
-                {% if post.status == 'PUBLISHED' %}
-                <h4 class="bg-warning p-1">This post is not published.</h4>
+                {% if post.status != 'PUBLISHED' %}
+                <h4>This post is not published.</h4>
                 {% endif %}
                 <h2><a href="{% url 'post-detail' post.slug %}">{{ post.title }}</a></h2>
                 <p>{{ post.body|truncatewords_html:50|safe }}</p>

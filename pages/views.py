@@ -19,3 +19,12 @@ class HomePageView(TemplateView):
 class PageDetailView(DetailView):
     model = Page
     template_name = 'pages/page_detail.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        if self.request.user.is_authenticated and queryset.filter(author=self.request.user):
+            return queryset
+        else:
+            queryset = queryset.filter(status='PUBLISHED')
+            return queryset
