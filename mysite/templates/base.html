@@ -4,7 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ request.site.name }}</title>
+    <title>{{ request.site.name }}
+
+        {% if home_page.title %}
+            - {{ home_page.title }}
+        {% elif blog_page.title %}
+            - {{ blog_page.title }}
+        {% elif page.title %}
+            - {{ page.title }}
+        {% elif post.title %}
+           - {{ post.title }}
+        {% endif %}
+    
+    </title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
