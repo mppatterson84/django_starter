@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<section>
+    <h2>{{ blog_page.title|default:title }}</h2>
+    <p>{{ blog_page.body|default:_('Welcome to the blog!') }}</p>
+
+        {% for post in object_list %}
+            <div class="post-entry">
+                {% if post.status == 'PUBLISHED' %}
+                <h4 class="bg-warning p-1">This post is not published.</h4>
+                {% endif %}
+                <h2><a href="{% url 'post-detail' post.slug %}">{{ post.title }}</a></h2>
+                <p>{{ post.body|truncatewords_html:50|safe }}</p>
+            </div>
+        {% endfor %}
+</section>
+{% endblock content %}

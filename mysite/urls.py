@@ -18,6 +18,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('blog/', include('posts.urls')),
+
+    # make sure 'pages' is always last
     path('', include('pages.urls')),
 ]
 
