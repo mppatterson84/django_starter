@@ -1,11 +1,16 @@
 from django import forms
 from django.contrib import admin
 from pages.models import Page
+from ckeditor.widgets import CKEditorWidget
 
 # Register your models here.
 
 
 class PageAdminForm(forms.ModelForm):
+    body = forms.CharField(
+        widget=CKEditorWidget()
+    )
+
     slug = forms.CharField(
         help_text='Leave blank to have a slug generated automatically.',
         required=False

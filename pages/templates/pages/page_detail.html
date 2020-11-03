@@ -8,6 +8,6 @@
 {% endif %}
     
     <h2>{{ page.title }}</h2>
-    <p>{{ page.body }}</p>
+    <p>{{ page.body|safe }}</p>
 {% endblock content %}
     

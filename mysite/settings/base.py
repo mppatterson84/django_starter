@@ -34,6 +34,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    # third party
+    'ckeditor',
+
     # local
     'pages.apps.PagesConfig',
     'posts.apps.PostsConfig',

@@ -5,7 +5,7 @@
 {% block content %}
 <section>
     <h2>{{ blog_page.title|default:title }}</h2>
-    <p>{{ blog_page.body|default:_('Welcome to the blog!') }}</p>
+    <p>{{ blog_page.body|default:_('Welcome to the blog!')|safe }}</p>
 
         {% for post in object_list %}
             <div class="post-entry">
