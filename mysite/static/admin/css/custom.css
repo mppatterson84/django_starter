@@ -1,1 +1,8 @@
-
+fieldset.module {
+  margin-bottom: 60px;
+}
+.submit-row {
+  position: fixed;
+  bottom: 0;
+  right: 1em;
+}
