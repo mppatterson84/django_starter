@@ -6,6 +6,13 @@
 <section>
     <h2>{{ blog_page.title|default:title }}</h2>
     <p>{{ blog_page.body|default:_('Welcome to the blog!')|safe }}</p>
+    {% if user.is_authenticated %}
+    <p>
+        <a href="/admin/posts/post/add/" target="_blank">New Post</a>
+        <a href="/admin/posts/postcategory/" target="_blank">Manage Categories</a>
+        <a href="/admin/pages/page/{{ blog_page.id }}/change/" target="_blank">Edit Page</a>
+    </p>
+    {% endif %}
 
         {% for post in object_list %}
             <div class="post-entry">

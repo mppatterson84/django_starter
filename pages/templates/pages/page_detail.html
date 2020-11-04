@@ -9,5 +9,12 @@
     
     <h2>{{ page.title }}</h2>
     <p>{{ page.body|safe }}</p>
+
+    {% if user.is_authenticated %}
+    <p>
+        <a href="/admin/pages/page/{{ page.pk }}/change/" target="_blank">Edit Page</a>
+    </p>
+    {% endif %}
+
 {% endblock content %}
     

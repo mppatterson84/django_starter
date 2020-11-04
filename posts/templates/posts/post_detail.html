@@ -8,4 +8,12 @@
 
     <h2>{{ post.title }}</h2>
     <p>{{ post.body|safe }}</p>
+    <p><a href="{% url 'post-list' %}">Back</a></p>
+    
+    {% if user.is_authenticated %}
+    <p>
+        <a href="/admin/posts/post/{{ post.pk }}/change/" target="_blank">Edit Post</a>
+    </p>
+    {% endif %}
+        
 {% endblock content %}

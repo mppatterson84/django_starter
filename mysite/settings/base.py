@@ -140,3 +140,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/3.1/ref/contrib/sites/
 
 SITE_ID = 1
+
+
+LOGOUT_REDIRECT_URL = '/'
