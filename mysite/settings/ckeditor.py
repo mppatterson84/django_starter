@@ -3,7 +3,7 @@ from .base import *
 CKEDITOR_BASE_PATH = "ckeditor/ckeditor/"
 CKEDITOR_CONFIGS = {
     'default': {
-        'skin': 'moono-dark',
+        'skin': 'moono-lisa',
         'extraPlugins': ['codesnippet', 'autogrow', ],
         'codeSnippet_theme': 'docco',
         'autoGrow_onStartup': True,
