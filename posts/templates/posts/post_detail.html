@@ -7,6 +7,11 @@
 {% endif %}
 
     <h2>{{ post.title }}</h2>
+    {% if post.author.first_name or post.author.last_name %}
+    <h4>By: {{ post.author.first_name }} {{ post.author.last_name }}</h4>
+    {% else %}
+    <h4>By: {{ post.author }}</h4>
+    {% endif %}
     <p>{{ post.body|safe }}</p>
     <p><a href="{% url 'post-list' %}">Back</a></p>
     
