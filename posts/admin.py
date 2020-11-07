@@ -35,6 +35,16 @@ class PostAdminForm(forms.ModelForm):
 class PostAdmin(admin.ModelAdmin):
     form = PostAdminForm
 
+    def get_queryset(self, request):
+        """
+        Show only a user's own posts if the 
+        user is not a superuser or 'Editor'.
+        """
+        q = super().get_queryset(request)
+        if request.user.is_superuser or request.user.groups.filter(name='Editor'):
+            return q
+        return q.filter(author=request.user)
+
 
 class PostCategoryAdminForm(forms.ModelForm):
     category_name = forms.CharField()
@@ -52,3 +62,14 @@ class PostCategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(PostCategory, PostCategoryAdmin)
+
+
+# class PostAdminFilter(admin.ModelAdmin):
+#     def get_queryset(self, request):
+#         """
+#         filter the objects to show only those created by a user
+#         """
+#         q = super().get_queryset(request)
+#         if request.user.is_superuser:
+#             return q
+#         return q.filter(author=request.user)
