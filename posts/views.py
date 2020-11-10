@@ -11,11 +11,14 @@ class PostListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.user.is_authenticated and queryset.filter(author=self.request.user):
-            return queryset
+        user = self.request.user
+        if user.is_authenticated:
+            if user.is_superuser or user.groups.filter(name='Editor'):
+                return queryset
+            else:
+                return queryset.filter(author=user)
         else:
-            queryset = queryset.filter(status='PUBLISHED')
-            return queryset
+            return queryset.filter(status='PUBLISHED')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -34,9 +37,11 @@ class PostDetailView(DetailView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-
-        if self.request.user.is_authenticated and queryset.filter(author=self.request.user):
-            return queryset
+        user = self.request.user
+        if user.is_authenticated:
+            if user.is_superuser or user.groups.filter(name='Editor'):
+                return queryset
+            else:
+                return queryset.filter(author=user)
         else:
-            queryset = queryset.filter(status='PUBLISHED')
-            return queryset
+            return queryset.filter(status='PUBLISHED')
