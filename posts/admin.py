@@ -1,6 +1,7 @@
 from .models import Post, PostCategory
 from django import forms
 from django.contrib import admin
+from django.contrib.auth.models import User
 from ckeditor.widgets import CKEditorWidget
 
 
@@ -37,13 +38,30 @@ class PostAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         """
-        Show only a user's own posts if the 
+        Show only a user's own posts if the
         user is not a superuser or 'Editor'.
         """
         q = super().get_queryset(request)
-        if request.user.is_superuser or request.user.groups.filter(name='Editor'):
+        current_user = request.user
+        if current_user.is_superuser or current_user.groups.filter(name='Editor'):
             return q
-        return q.filter(author=request.user)
+        return q.filter(author=current_user)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """
+        Order the current user to be first for superuser or 'Editor'. 
+        Show only the current user if not a superuser or 'Editor'.
+        """
+        current_user = request.user
+        user_queryset = User.objects.filter(username=current_user)
+        if current_user.is_superuser or current_user.groups.filter(name='Editor'):
+            if db_field.name == 'author':
+                kwargs['queryset'] = user_queryset.union(
+                    User.objects.exclude(username=current_user))
+            return super().formfield_for_foreignkey(db_field, request, **kwargs)
+        elif db_field.name == 'author':
+            kwargs['queryset'] = user_queryset
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class PostCategoryAdminForm(forms.ModelForm):
@@ -62,14 +80,3 @@ class PostCategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(PostCategory, PostCategoryAdmin)
-
-
-# class PostAdminFilter(admin.ModelAdmin):
-#     def get_queryset(self, request):
-#         """
-#         filter the objects to show only those created by a user
-#         """
-#         q = super().get_queryset(request)
-#         if request.user.is_superuser:
-#             return q
-#         return q.filter(author=request.user)
