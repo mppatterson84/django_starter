@@ -47,17 +47,21 @@ class PostAdmin(admin.ModelAdmin):
             return q
         return q.filter(author=current_user)
 
+    def get_form(self, request, obj=None, **kwargs):
+        """
+        Have the current user selected initially.
+        """
+        form = super(PostAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['author'].initial = request.user
+        return form
+
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         """
-        Order the current user to be first for superuser or 'Editor'. 
         Show only the current user if not a superuser or 'Editor'.
         """
         current_user = request.user
         user_queryset = User.objects.filter(username=current_user)
         if current_user.is_superuser or current_user.groups.filter(name='Editor'):
-            if db_field.name == 'author':
-                kwargs['queryset'] = user_queryset.union(
-                    User.objects.exclude(username=current_user))
             return super().formfield_for_foreignkey(db_field, request, **kwargs)
         elif db_field.name == 'author':
             kwargs['queryset'] = user_queryset
