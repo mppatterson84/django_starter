@@ -1,5 +1,4 @@
 from django.utils.text import slugify
-from itertools import chain
 
 
 def process_slug(self, i):
@@ -17,6 +16,7 @@ def process_slug(self, i):
 
 
 def get_unique_slug(self):
-    self.slug = slugify(self.title)
-    i = 1
-    process_slug(self, i)
+    if not self.slug:
+        self.slug = slugify(self.title)
+        i = 1
+        process_slug(self, i)
