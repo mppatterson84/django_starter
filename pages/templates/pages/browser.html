@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Browser</title>
+</head>
+<body style="margin: 0;">
+  
+  <div class="ml-widget" style="height: 100vh;"></div>
+  
+  <script src="https://media-library.cloudinary.com/global/all.js"></script>
+  <script>
+  window.ml = cloudinary.openMediaLibrary({
+    cloud_name: '{{ cloud_name }}',
+    api_key: '{{ api_key }}',
+    username: '{{ user_name }}',
+    multiple: false,
+    z_index: 1,
+    inline_container: '.ml-widget',
+    remove_header: true,
+    }, {
+        insertHandler: function (data) {
+          data.assets.forEach(asset => {
+            console.log("Inserted asset:", JSON.stringify(asset, null, 2))
+
+            function getUrlParam( paramName ) {
+              var reParam = new RegExp( '(?:[\?&]|&)' + paramName + '=([^&]+)', 'i' );
+              var match = window.location.search.match( reParam );
+
+              return ( match && match.length > 1 ) ? match[1] : null;
+            }
+
+            function getFileUrl(){
+              if(asset.derived){
+                return asset.derived[0].secure_url
+              }else{
+                return asset.secure_url
+              }
+            }
+
+            function copyURL(){
+              let selBox = document.createElement('textarea');
+              selBox.style.position = 'fixed';
+              selBox.style.left = '0';
+              selBox.style.top = '0';
+              selBox.style.opacity = '0';
+              selBox.value = fileUrl;
+              document.body.appendChild(selBox);
+              selBox.focus();
+              selBox.select();
+              document.execCommand('copy');
+              document.body.removeChild(selBox);
+            }
+
+            function ckeditorWindow(){
+              var field = 'CKEditor';
+              var url = window.location.href;
+              if(url.indexOf('?' + field + '=') != -1)
+                  return true;
+              else if(url.indexOf('&' + field + '=') != -1)
+                  return true;
+              return false
+            }
+
+            var funcNum = getUrlParam('CKEditorFuncNum');
+            var fileUrl = getFileUrl()
+            console.log(fileUrl)
+            if(ckeditorWindow()){
+              window.opener.CKEDITOR.tools.callFunction(funcNum, fileUrl);
+              window.close()
+            }else{
+              copyURL()
+              alert(`URL copied to clipboard.\n'${fileUrl}'`)
+            }
+        })
+      }
+    },
+  )
+
+  </script>
+</body>
+</html>

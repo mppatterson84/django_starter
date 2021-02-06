@@ -1,5 +1,7 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, DetailView
 from pages.models import Page
+import os
 
 
 class HomePageView(TemplateView):
@@ -28,3 +30,19 @@ class PageDetailView(DetailView):
         else:
             queryset = queryset.filter(status='PUBLISHED')
             return queryset
+
+
+class BrowserPageView(LoginRequiredMixin, TemplateView):
+    template_name = 'pages/browser.html'
+    login_url = '/admin/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Browser'
+        context['browser_active'] = 'active'
+        context['browser_active_link'] = '#'
+        context['browser_active_sr'] = '<span class="sr-only">(current)</span>'
+        context['cloud_name'] = os.environ.get('CLOUD_NAME')
+        context['api_key'] = os.environ.get('API_KEY')
+        context['user_name'] = os.environ.get('CLOUDINARY_USER')
+        return context
