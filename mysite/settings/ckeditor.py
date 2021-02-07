@@ -13,7 +13,7 @@ CKEDITOR_CONFIGS = {
         'codeSnippet_theme': 'docco',
         'autoGrow_onStartup': True,
         'autoGrow_minHeight': '300',
-        'width': '100%',
+        'width': '99%',
         'image2_prefillDimensions': False,
         'filebrowserBrowseUrl': '/media/browser/',
         'toolbar': 'Custom',
